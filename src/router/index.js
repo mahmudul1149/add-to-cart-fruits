@@ -1,7 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
 import CartView from "../views/CartView.vue";
+import HomeView from "../views/HomeView.vue";
+import product from "../views/ProductView.vue";
 
 Vue.use(VueRouter);
 
@@ -14,6 +15,10 @@ const routes = [
   {
     path: "/product",
     component: CartView,
+  },
+  {
+    path: "/products",
+    component: product,
   },
 ];
 
