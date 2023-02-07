@@ -1,15 +1,14 @@
 <template>
   <div class="home">
-    <label for="#">Search</label>
     <input
       type="text"
       name=""
       id="searchinput"
-      @input="searchInput"
       v-model="value"
+      placeholder="Search"
     />
     <div class="container-box">
-      <div class="box" v-for="product in filterTask" :key="product.id">
+      <div class="box" v-for="product in filteredItems" :key="product.id">
         <div class="image">
           <img :src="product.url" alt="" />
         </div>
@@ -22,11 +21,13 @@
         </div>
       </div>
     </div>
+    <div>
+      <button @click="goProducts" class="btn btn-more">More item</button>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -34,7 +35,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["filterTask"]),
+    filteredItems() {
+      return this.$store.getters.filteredItems(this.value);
+    },
     products() {
       return this.$store.getters.products;
     },
@@ -43,9 +46,6 @@ export default {
     addItem(item) {
       this.$store.dispatch("addItems", item);
     },
-    searchInput() {
-      this.$store.dispatch("searchValues", this.value);
-    },
   },
   created() {
     this.$store.dispatch("initProducts");
@@ -53,11 +53,23 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .home {
   margin-top: 1.5rem;
 }
+.btn-more {
+  padding: 0.5rem 0.5rem;
+  cursor: pointer;
+  background: green;
+  border-radius: 5px;
+  margin-left: 0.35rem;
+  margin-top: 1rem;
+  border: none;
+  color: white;
+}
 .container-box {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   margin-top: 2rem;
   display: flex;
   gap: 1rem;
@@ -72,6 +84,7 @@ export default {
       height: 250px;
     }
   }
+
   .box .title-box {
     background: hsla(0, 0%, 97%, 0.884);
     padding: 0.3rem;
@@ -90,11 +103,13 @@ export default {
   }
 }
 #searchinput {
-  outline: none;
-  border: none;
-  height: 25px;
-  background: #fcf6f6;
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 label {
   font-size: 1.4rem;

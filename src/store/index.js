@@ -6,7 +6,7 @@ export default new Vuex.Store({
   state: {
     product: [],
     cart: [],
-    searchValue: "",
+    searchQuery: "",
   },
   getters: {
     products(state) {
@@ -21,9 +21,14 @@ export default new Vuex.Store({
     totalCountItem(state) {
       return state.cart.reduce((acc, val) => acc + val.quantity, 0);
     },
-    filterTask(state) {
+    // filterTask(state) {
+    //   return state.product.filter((item) =>
+    //     item.name.toLowerCase().includes(state.searchValue.toLowerCase())
+    //   );
+    // },
+    filteredItems: (state) => (searchTerm) => {
       return state.product.filter((item) =>
-        item.name.toLowerCase().includes(state.searchValue.toLowerCase())
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     },
   },
@@ -51,9 +56,6 @@ export default new Vuex.Store({
         state.cart.splice(state.cart.indexOf(record), 1);
       }
     },
-    SEARCH_VALUE(state, value) {
-      state.searchValue = value;
-    },
   },
   actions: {
     initProducts({ commit }) {
@@ -67,9 +69,6 @@ export default new Vuex.Store({
     },
     reduceQuantity({ commit }, id) {
       commit("REDUCE_QTY", id);
-    },
-    searchValues({ commit }, value) {
-      commit("SEARCH_VALUE", value);
     },
   },
 });

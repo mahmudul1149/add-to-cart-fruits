@@ -43,6 +43,7 @@ export default {
   border-radius: 10px;
   justify-content: space-between;
   background: white;
+  font-family: "Roboto", sans-serif;
   color: #333;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
   .logo h1 {
